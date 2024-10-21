@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Propietarios y Mascotas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center">Gestión de Propietarios y Mascotas</h1>
+
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h2>Agregar Propietario</h2>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/propietarios}" method="post">
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" class="form-control" required/>
+                </div>
+                <div class="form-group">
+                    <label for="direccion">Dirección:</label>
+                    <input type="text" id="direccion" name="direccion" class="form-control" required/>
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono:</label>
+                    <input type="text" id="telefono" name="telefono" class="form-control" required/>
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar Propietario</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="mt-5">
+        <h2>Lista de Propietarios</h2>
+        <ul class="list-group" th:each="propietario : ${propietarios}">
+            <li class="list-group-item">
+                <strong th:text="${propietario.nombre}">Nombre del Propietario</strong> -
+                <em th:text="${propietario.direccion}">Dirección</em> -
+                <span th:text="${propietario.telefono}">Teléfono</span>
+
+
+                <ul class="mt-2">
+                    <li th:each="mascota : ${propietario.mascotas}" class="list-group-item">
+                        Mascota: <strong th:text="${mascota.nombre}">Nombre de la Mascota</strong>,
+                        Especie: <span th:text="${mascota.especie}">Especie</span>,
+                        Raza: <span th:text="${mascota.raza}">Raza</span>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="card mt-5">
+        <div class="card-header">
+            <h2>Agregar Mascota</h2>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/mascotas}" method="post">
+                <div class="form-group">
+                    <label for="nombreMascota">Nombre:</label>
+                    <input type="text" id="nombreMascota" name="nombre" class="form-control" required/>
+                </div>
+                <div class="form-group">
+                    <label for="especie">Especie:</label>
+                    <input type="text" id="especie" name="especie" class="form-control" required/>
+                </div>
+                <div class="form-group">
+                    <label for="raza">Raza:</label>
+                    <input type="text" id="raza" name="raza" class="form-control" required/>
+                </div>
+                <div class="form-group">
+                    <label for="propietario">Propietario:</label>
+                    <select id="propietario" name="propietarioId" class="form-control" required>
+                        <option th:each="prop : ${propietarios}"
+                                th:value="${prop.id}"
+                                th:text="${prop.nombre}">Seleccione un Propietario</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar Mascota</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
